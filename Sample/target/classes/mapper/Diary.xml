@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tps.sample.dao.DiaryDao">
+	<insert id="insertDiary" parameterType="com.tps.sample.entity.Diary">
+		insert into user_diary (
+			diary_title,
+			diary_contents,
+			diary_regdate,
+			user_no
+			)
+		values
+			(#{title}, #{contents}, #{regdate}, #{user.no})
+	</insert>
+
+	<select id="selectDiaryOneRowByUser" parameterType="com.tps.sample.entity.User"
+		resultType="com.tps.sample.entity.Diary">
+		select
+			diary_no as no,
+			diary_title as title,
+			diary_contents as contents,
+			diary_regdate as regdate,
+			user_no as "user.no"
+		from user_diary
+		where
+			user_no = #{no}
+		order by
+			diary_no desc
+		limit 1
+	</select>
+
+	<insert id="insertDiaryCategory" parameterType="com.tps.sample.entity.DiaryCategory">
+		insert into user_diary_datecategory (
+			diary_category_year,
+			diary_category_month,
+			diary_no
+		)
+		value
+			(#{year}, #{month}, #{diary.no})
+	</insert>
+
+	<select id="selectYearByUserNo" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select
+			u3.diary_category_year as year
+		from
+			user u1,
+			user_diary u2,
+			user_diary_datecategory u3
+		where
+			u1.user_no = u2.user_no
+			and u2.diary_no = u3.diary_no
+			and u1.user_no = #{no}
+		group by
+			u3.diary_category_year
+		order by
+			u3.diary_category_year desc
+	</select>
+
+	<select id="selectMonthByUserNoAndYear" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select
+			u3.diary_category_month as month
+		from
+			user u1,
+			user_diary u2,
+			user_diary_datecategory u3
+		where
+			u1.user_no = u2.user_no
+			and u2.diary_no = u3.diary_no
+			and u1.user_no = #{userNo}
+			and u3.diary_category_year = #{year}
+		group by
+			u3.diary_category_month
+		order by
+			u3.diary_category_month desc
+	</select>
+
+	<select id="selectDiaryByUserNoAndCategory" parameterType="java.util.Map"
+		resultType="com.tps.sample.entity.Diary">
+		select
+			u2.diary_no as no,
+			u2.diary_title as title,
+			u2.diary_contents as contents,
+			u2.diary_regdate as regdate,
+			u2.user_no as "user.no"
+		from
+			user_diary u2,
+			user_diary_datecategory u3
+		where
+			u2.diary_no = u3.diary_no
+			and u2.user_no = #{userNo}
+			and u3.diary_category_year = #{diaryCategory.year}
+			and u3.diary_category_month = #{diaryCategory.month}
+		order by
+			u2.diary_no desc
+	</select>
+
+	<update id="updateDiary" parameterType="com.tps.sample.entity.Diary">
+		update
+			user_diary
+		set
+			diary_title = #{title},
+			diary_contents = #{contents},
+			diary_regdate = #{regdate}
+		where
+			diary_no = #{no}
+	</update>
+</mapper>
