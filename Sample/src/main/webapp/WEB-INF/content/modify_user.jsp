@@ -34,14 +34,14 @@ $(function() {
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            <div class="panel panel-success">
-                <div class="panel-heading text-center">TPSダイアリー</div>
-                <s:form action="modify_user">
-                <div class="panel-body">
-                	<div class="form-group">
-                		<div class="alert alert-success" id="alert">パスワード、名前は必須入力項目です。</div>
+	<div class="row">
+		<div class="col-sm-6 col-sm-offset-3">
+			<div class="panel panel-success">
+				<div class="panel-heading text-center">TPSダイアリー</div>
+				<s:form action="modify_user">
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="alert alert-success" id="alert">パスワード、名前は必須入力項目です。</div>
 						<s:label value="ユーザID"/>
 						<s:textfield name="userDto.id" label="ユーザID" cssClass="form-control" readonly="true" id="id"/>
 					</div>
@@ -70,14 +70,14 @@ $(function() {
 						<sx:datetimepicker name="userDto.birth" displayFormat="yyyy/MM/dd" cssClass="form-control"/>
 					</div>
 				</div>
-                <div class="panel-footer text-right">
-                    <s:submit value="修正" cssClass="btn btn-success disabled"/>
-                    <a href="<c:url value='javascript:history.back()'/>" class="btn btn-default">戻る</a>
-                </div>
-                </s:form>
-            </div>
-        </div>
-    </div>
+				<div class="panel-footer text-right">
+					<s:submit value="修正" cssClass="btn btn-success disabled"/>
+					<a href="<c:url value='javascript:history.back()'/>" class="btn btn-default">戻る</a>
+				</div>
+				</s:form>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 </html>
